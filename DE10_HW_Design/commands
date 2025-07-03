@@ -1,0 +1,5 @@
+mkdir -p fat
+mount /dev/mmcblk0p1 fat
+##copy after mounting
+umount fat
+reboot

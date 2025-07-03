@@ -1,0 +1,17 @@
+{
+    "files.associations": {
+        "locale": "c",
+        "hw_interface.h": "c",
+        "image_processor.h": "c",
+        "green_mask.h": "c",
+        "math.h": "c",
+        "compare": "c",
+        "cstdint": "c",
+        "mutex": "c",
+        "stdint.h": "c",
+        "start_com_queue.h": "c",
+        "stdbool.h": "c",
+        "spsc_queue.h": "c",
+        "stdatomic.h": "c"
+    }
+}
