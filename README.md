@@ -1,3 +1,5 @@
+![Ball tracking](https://github.com/Belal-Elshinnawey/Embedded_Software_Lab/blob/main/ball_tracking.gif)
+
 Overview
 
 This project contains the code for the Embedded Software Lab. The repository is organized into three main directories:
