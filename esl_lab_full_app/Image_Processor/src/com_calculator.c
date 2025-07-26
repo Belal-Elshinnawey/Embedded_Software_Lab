@@ -15,7 +15,7 @@ SPSCQueue com_queue;
 void calculate_com(uint8_t mask[HEIGHT][WIDTH], float *com_x, float *com_y)
 {
     unsigned long sum_x = 0, sum_y = 0, count = 0;
-    const unsigned long min_green_pixels = MIN_GREEN_PIXELS;
+    const unsigned long min_green_pixels = MIN_GREEN_PIXELS; // Check config.mk for variables
 
     for (int y = 0; y < HEIGHT; ++y)
     {
@@ -23,21 +23,21 @@ void calculate_com(uint8_t mask[HEIGHT][WIDTH], float *com_x, float *com_y)
         {
             if (mask[y][x])
             {
-                sum_x += x;
-                sum_y += y;
-                count++;
+                sum_x += x; // sum all the X
+                sum_y += y; // Sum all the Y
+                count++; // Count the Pixels
             }
         }
     }
 
-    if (count >= min_green_pixels)
+    if (count >= min_green_pixels) // The count is used to make sure to tack objects big enough.
     {
-        *com_x = (float)sum_x / (float)count;
-        *com_y = (float)sum_y / (float)count;
+        *com_x = (float)sum_x / (float)count; //Calculate the COM of the rows
+        *com_y = (float)sum_y / (float)count; // Calculate the com of the cols
     }
     else
     {
-        *com_x = -1.0f;
+        *com_x = -1.0f; //Otherwise, set the COM to -1,-1
         *com_y = -1.0f;
     }
 }
@@ -55,16 +55,14 @@ void *com_calculator_thread(void *arg)
     while (1)
     {
         clock_gettime(CLOCK_MONOTONIC, &(thread_timing.start_time));
-        pthread_mutex_lock(&green_mask_queue_mutex);
-        while (green_mask_queue_count == 0)
-            pthread_cond_wait(&green_mask_queue_not_empty, &green_mask_queue_mutex);
-
-        memcpy(mask, green_mask_queue[green_mask_queue_front], sizeof(mask));
-        green_mask_queue_front = (green_mask_queue_front + 1) % GREEN_MASK_QUEUE_SIZE;
-        green_mask_queue_count--;
-
-        pthread_cond_signal(&green_mask_queue_not_full);
-        pthread_mutex_unlock(&green_mask_queue_mutex);
+        pthread_mutex_lock(&green_mask_queue_mutex); // take the mutex
+        while (green_mask_queue_count == 0) // wait while the queue is empty
+            pthread_cond_wait(&green_mask_queue_not_empty, &green_mask_queue_mutex); // make sure to unlock the mutex while waiting
+        memcpy(mask, green_mask_queue[green_mask_queue_front], sizeof(mask));// copy from the queue to local buffer
+        green_mask_queue_front = (green_mask_queue_front + 1) % GREEN_MASK_QUEUE_SIZE; //decrement the front.
+        green_mask_queue_count--; // reduce the queue size.
+        pthread_cond_signal(&green_mask_queue_not_full); //Signal Queue full
+        pthread_mutex_unlock(&green_mask_queue_mutex); //Unlock the queue
 
         calculate_com(mask, &com_x, &com_y);
 

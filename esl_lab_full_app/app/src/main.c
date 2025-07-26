@@ -150,26 +150,30 @@ void *start_thread_func(void *arg)
         while (start_thread_active)
         {
             clock_gettime(CLOCK_MONOTONIC, &(thread_timing.start_time));
+
+            // if new center of mass is received:
             if (spsc_dequeue(&com_queue, &com_val) && com_val.com_x > 0.0f && com_val.com_y > 0.0f)
             {
+                // half_width and half height are the center of the camera frame.
+                // pixel_err is the distance from com to center in Pixles.
                 pixel_err_x = half_width - com_val.com_x;
                 pixel_err_y = half_height - com_val.com_y;
 
-                // printf("[START] perr %.2f\n", pixel_err_y);
-
-                // no fancy fabs that works sometimes but if you use -Ofast it outputs garbage.
+                // We use a dead zone of 50 pixels to avoid constant shaking
+                // Avoiding fabs since it is sometimes not stable when compiling with -Ofast
                 if (pixel_err_x <= -50.0 || pixel_err_x >= 50.0){
+                    // current Yaw (Pan) position + error in X multiplied by Rad per pixel.
                     yaw_set_point = yaw_position_current +  (pixel_err_x * YAW_RAD_PER_PIXEL);
                 }
-
+                // same dead zone
                 if (pixel_err_y <= -50.0 || pixel_err_y >= 50.0){
+                    // current Pitch (Tilt) position + error in Y multiplied by Rad per pixel.
                     pitch_set_point = pitch_position_current +  (pixel_err_y * PITCH_RAD_PER_PIXEL);
                 }
-                //clip for safty. causes jitter but the result is way worse if not used.
+
+                //clip for safty. No Motion beyond motor limits
                 yaw_set_point = yaw_set_point > YAW_MAX_RAD ? yaw_position_current : yaw_set_point < YAW_MIN_RAD ? yaw_position_current : yaw_set_point;
                 pitch_set_point = pitch_set_point > PITCH_MAX_RAD ? pitch_position_current : pitch_set_point < PITCH_MIN_RAD ? pitch_position_current : pitch_set_point;
-                
-
             }
 
 #if defined(SINGLE_SHOT_TEST) && SINGLE_SHOT_TEST == 1
@@ -193,25 +197,24 @@ void *start_thread_func(void *arg)
             yaw_inputs[1] = yaw_position_current;
             pitch_inputs[1] = pitch_set_point;
             pitch_inputs[2] = pitch_position_current;
-
-            // printf("[START] set point (%.2f, %.2f)\n", yaw_set_point, pitch_set_point);
-            // printf("Current Pos: yaw:%f pitch:%f\n", yaw_position_current, pitch_position_current);
-
             YAW_XXCalculateSubmodel(yaw_inputs, yaw_outputs, yaw_xx_time);
             PITCH_XXCalculateSubmodel(pitch_inputs, pitch_outputs, pitch_xx_time);
-            // printf("[START] 20SIM Model (%.2f, %.2f)\n", yaw_outputs[1], pitch_outputs[0]);
-
 
             // printf("[START] 20SIM Model (%.2f, %.2f)\n", yaw_outputs[1], pitch_outputs[0]);
+
+            //Convert output to PWM:
             requested_yaw_pwm = (uint16_t)(yaw_outputs[1] * (yaw_outputs[1] <= 0.0f ? YAW_PWM_MIN : YAW_PWM_MAX));
             requested_pitch_pwm = (uint16_t)((pitch_outputs[0]) * (pitch_outputs[0] <= 0.0f ? PITCH_PWM_MIN : PITCH_PWM_MAX));
-            // printf("[START] 20SIM Model Requested PWM(%d, %d)\n", requested_yaw_pwm, requested_pitch_pwm);
 
+            // Extract direction from the sign of the output
             yaw_dir = (yaw_outputs[1]) <= 0.0f ? -1 : 1;
             pitch_dir = (pitch_outputs[0]) <= 0.0f ? -1 : 1;
+            // Convert the PWM value to writable value to send to the FPGA
             pitch_pwm = get_pwm_value(pitch_dir,requested_pitch_pwm);
             yaw_pwm = get_pwm_value(yaw_dir,requested_yaw_pwm);
+            // Write the value and read the position in the same step
             read_write_encoder_pwm(fd, mem_interface_map, pitch_pwm, yaw_pwm, &pitch_encoder_settings[3], &yaw_encoder_settings[3]);
+            // convert the encoder value to angle Rad
             get_rad_from_encoder(
                 &pitch_position_current,
                 &yaw_position_current,

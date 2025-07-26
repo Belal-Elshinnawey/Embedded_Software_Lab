@@ -22,9 +22,7 @@ module mem_interface #(
 
     localparam PWM_ADDR     = 8'h00;
     localparam ENCODER_ADDR = 8'h04;
-    localparam RESET_CONTROL_REG = 8'h08;
 
- 
     always @(posedge clk or posedge reset) begin
         if (reset) begin
             pwm_vals <= {16'd2048,16'd2048}; //pwm is 0 in the midpoint. maybe parameterize this later

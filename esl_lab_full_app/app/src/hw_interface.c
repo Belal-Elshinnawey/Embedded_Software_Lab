@@ -135,7 +135,7 @@ void read_write_encoder_pwm(int fd, uint8_t *mem_interface_map, uint16_t pitch_p
     *yaw_encoder |= RXBuf[3];
 
 #elif defined(PLATFORM_DE10)
-    volatile uint32_t *base = (uint32_t *)mem_interface_map; // keep this volatile. especially if you compile -Ofast or -O3
+    volatile uint32_t *base = (uint32_t *)mem_interface_map;
     base[0] = ((uint32_t)pitch_pwm << 16) | (uint32_t)yaw_pwm;
     uint32_t encoder_vals = base[1];
     *pitch_encoder = (uint16_t)(encoder_vals >> 16);

@@ -8,9 +8,9 @@ import cv2
 RPI_HOST = "10.0.15.51"
 DE10_HOST = "10.0.15.71"
 MY_PI_HOST = "belalpi.local"
-HOST = RPI_HOST
-WIDTH = 320
-HEIGHT = 240
+HOST = MY_PI_HOST
+WIDTH = 640
+HEIGHT = 480
 
 frames = defaultdict(dict) 
 expected_chunks = {}
