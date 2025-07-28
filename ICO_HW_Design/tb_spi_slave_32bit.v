@@ -69,6 +69,7 @@ module tb_SPI_Slave;
         end
     endtask
 
+
     reg [31:0] tx_frame;
     reg [31:0] rx_frame;
 
