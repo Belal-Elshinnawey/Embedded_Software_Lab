@@ -2,7 +2,7 @@
 #include <pigpio.h>
 #include <unistd.h>
 
-#define GPIO_PIN 24      
+#define GPIO_PIN 16     
 #define FREQ      40000  
 #define STEP_US   50000  
 #define STEP_SIZE 0.05  
