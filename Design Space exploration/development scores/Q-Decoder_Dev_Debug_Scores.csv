@@ -1,0 +1,9 @@
+Decoder Type,Platform,Location,Dev & Debug Score
+LUT Decoder,DE10-Avalon,CPU,23.0
+LUT Decoder,RPi-SPI,CPU,31.0
+Edge Decoder,DE10-Avalon,CPU,26.0
+Edge Decoder,RPi-SPI,CPU,34.0
+LUT Decoder,RPi-SPI,FPGA,31.0
+Edge Decoder,RPi-SPI,FPGA,34.0
+LUT Decoder,DE10-Avalon,FPGA,23.0
+Edge Decoder,DE10-Avalon,FPGA,26.0

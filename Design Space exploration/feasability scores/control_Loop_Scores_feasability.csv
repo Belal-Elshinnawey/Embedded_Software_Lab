@@ -1,0 +1,5 @@
+Platform,Location,Feasability Score
+RPi-SPI,CPU,28.0
+DE10-Avalon,CPU,26.0
+DE10-Avalon,FPGA,21.0
+RPi-SPI,FPGA,23.0

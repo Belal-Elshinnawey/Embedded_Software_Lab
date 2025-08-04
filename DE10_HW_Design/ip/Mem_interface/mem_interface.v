@@ -29,12 +29,10 @@ module mem_interface #(
             slave_readdata <= {DATA_WIDTH{1'b0}};
         end else begin
             if (slave_read) begin
-                slave_readdata <= encoder_vals;
+                slave_readdata <= encoder_vals; // should really check the address before copying data (slave_address)
             end
-
-
             if (slave_write) begin
-                pwm_vals <= slave_writedata;  
+                pwm_vals <= slave_writedata;   // should really check the address before copying data (slave_address)
             end
 
         end

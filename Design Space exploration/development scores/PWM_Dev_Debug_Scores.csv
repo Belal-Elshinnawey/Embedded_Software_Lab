@@ -1,0 +1,9 @@
+PWM Type,Platform,Location,Dev & Debug Score
+Edge PWM,RPi-SPI,CPU,35.5
+Center PWM,RPi-SPI,CPU,32.0
+Edge PWM,RPi-SPI,FPGA,35.5
+Center PWM,RPi-SPI,FPGA,32.0
+Edge PWM,DE10-Avalon,CPU,27.5
+Center PWM,DE10-Avalon,CPU,24.0
+Edge PWM,DE10-Avalon,FPGA,27.5
+Center PWM,DE10-Avalon,FPGA,24.0

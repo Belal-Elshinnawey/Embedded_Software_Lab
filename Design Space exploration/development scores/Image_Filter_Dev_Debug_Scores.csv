@@ -1,0 +1,9 @@
+Filter Type,Platform,Location,Dev & Debug Score
+HSV,RPi-SPI,CPU,29.0
+HSV,DE10-Avalon,CPU,27.0
+YUV,DE10-Avalon,CPU,25.0
+YUV,RPi-SPI,CPU,27.0
+HSV,RPi-SPI,FPGA,23.0
+YUV,RPi-SPI,FPGA,21.0
+HSV,DE10-Avalon,FPGA,21.0
+YUV,DE10-Avalon,FPGA,19.0

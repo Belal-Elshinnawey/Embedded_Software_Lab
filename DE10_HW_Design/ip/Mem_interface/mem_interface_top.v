@@ -1,4 +1,3 @@
-`timescale 1 ps / 1 ps
 
 module mem_interface_top #(
     parameter DATA_WIDTH = 32
@@ -20,7 +19,7 @@ module mem_interface_top #(
     wire [DATA_WIDTH-1:0] encoder_vals_reg;
     wire [DATA_WIDTH-1:0] reset_control_reg;
     assign encoder_vals_reg = encoder_vals;
-    assign pwm_vals_reg = pwm_vals;
+    assign pwm_vals  = pwm_vals_reg;
     assign reset_control_reg = reset_control;
 
     mem_interface #(

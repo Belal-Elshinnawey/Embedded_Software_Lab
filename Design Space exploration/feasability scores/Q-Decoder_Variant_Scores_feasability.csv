@@ -1,0 +1,9 @@
+Decoder Type,Platform,Location,Feasability Score
+LUT Decoder,DE10-Avalon,FPGA,43.5
+LUT Decoder,RPi-SPI,FPGA,42.5
+Edge Decoder,DE10-Avalon,FPGA,40.5
+Edge Decoder,RPi-SPI,FPGA,39.5
+Edge Decoder,RPi-SPI,CPU,26.5
+LUT Decoder,DE10-Avalon,CPU,30.5
+LUT Decoder,RPi-SPI,CPU,29.5
+Edge Decoder,DE10-Avalon,CPU,27.5

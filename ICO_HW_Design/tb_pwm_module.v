@@ -2,11 +2,9 @@
 
 module tb_PWM_Generator;
 
-    // Parameters
     parameter MAX_COUNT = 4096;
     parameter CLK_PERIOD = 10;
 
-    // Testbench signals
     reg clk;
     reg rst;
     reg [15:0] duty_cycle;
@@ -33,10 +31,8 @@ module tb_PWM_Generator;
         $dumpvars(0, tb_PWM_Generator);
 
         rst = 1;
-        duty_cycle = MAX_COUNT >> 1; // MIDPOINT
+        duty_cycle = MAX_COUNT >> 1; // MIDPOINT is 0 duty
         #(5*CLK_PERIOD);
-
-        // Release reset
         rst = 0;
         #(10*CLK_PERIOD);
 

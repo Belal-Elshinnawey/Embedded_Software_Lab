@@ -1,0 +1,9 @@
+Filter Type,Platform,Location,Feasability Score
+HSV,RPi-SPI,CPU,54.0
+YUV,DE10-Avalon,CPU,45.0
+YUV,RPi-SPI,CPU,53.0
+YUV,DE10-Avalon,FPGA,39.0
+HSV,DE10-Avalon,FPGA,40.0
+HSV,DE10-Avalon,CPU,46.0
+HSV,RPi-SPI,FPGA,48.0
+YUV,RPi-SPI,FPGA,47.0

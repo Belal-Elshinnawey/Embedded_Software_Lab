@@ -1,0 +1,5 @@
+Platform,Location,Dev & Debug Score
+DE10-Avalon,CPU,17.0
+RPi-SPI,CPU,17.0
+DE10-Avalon,FPGA,12.0
+RPi-SPI,FPGA,12.0

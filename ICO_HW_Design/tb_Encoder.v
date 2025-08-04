@@ -1,9 +1,7 @@
 `timescale 1ns / 1ps
 
 module tb_Encoder;
-
-    // Parameters
-    localparam CLK_PERIOD = 10;  // 100MHz
+    localparam CLK_PERIOD = 10;
     localparam ENCODER_MAX = 64000;
 
     // Inputs
@@ -18,7 +16,7 @@ module tb_Encoder;
     // Instantiate the Encoder
     Encoder #(
         .ENCODER_MAX(ENCODER_MAX)
-    ) uut (
+    ) dut (
         .clk(clk),
         .rst(rst),
         .A(A),
@@ -26,10 +24,9 @@ module tb_Encoder;
         .count(count)
     );
 
-    // Clock generation
     always #(CLK_PERIOD/2) clk = ~clk;
 
-    // Task to simulate one quadrature step
+    // simulate one quadrature step
     task quadrature_step_forward;
         begin
             // 00 -> 01 -> 11 -> 10 -> 00
@@ -54,7 +51,6 @@ module tb_Encoder;
         $dumpfile("encoder.vcd");
         $dumpvars(0, tb_Encoder);
 
-        // Initial reset
         rst <= 1;
         #(2 * CLK_PERIOD);
         rst <= 0;
